@@ -1,0 +1,71 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setEnabled(True)
+        MainWindow.resize(780, 574)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(145, 30, 601, 491))
+        self.textBrowser.setObjectName("textBrowser")
+        self.subplot_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.subplot_btn.setGeometry(QtCore.QRect(20, 72, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.subplot_btn.setFont(font)
+        self.subplot_btn.setObjectName("subplot_btn")
+        self.quickest_path_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.quickest_path_btn.setGeometry(QtCore.QRect(20, 150, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.quickest_path_btn.setFont(font)
+        self.quickest_path_btn.setObjectName("quickest_path_btn")
+        self.likely_path_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.likely_path_btn.setGeometry(QtCore.QRect(20, 230, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.likely_path_btn.setFont(font)
+        self.likely_path_btn.setObjectName("likely_path_btn")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 780, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        self.subplot_btn.clicked.connect(MainWindow.subplotSlot)
+        self.quickest_path_btn.clicked.connect(MainWindow.quickPathSlot)
+        self.likely_path_btn.clicked.connect(MainWindow.likelyPathSlot)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.subplot_btn.setText(_translate("MainWindow", "Subplots"))
+        self.quickest_path_btn.setText(_translate("MainWindow", "Quickest Path"))
+        self.likely_path_btn.setText(_translate("MainWindow", "Likely Path"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+
