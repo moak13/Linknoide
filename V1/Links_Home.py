@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
 
-class Ui_Home(object):
+class Ui_Home(QObject):
     def setupUi(self, Home):
         Home.setObjectName("Home")
         Home.resize(780, 574)
@@ -67,6 +67,7 @@ class Ui_Home(object):
         self.preview_window.setObjectName("preview_window")
         self.generate_btn = QtWidgets.QPushButton(self.centralwidget)
         self.generate_btn.setGeometry(QtCore.QRect(640, 520, 121, 41))
+        self.generate_btn.setStyleSheet("background-color: lightgreen")
         self.generate_btn.setObjectName("generate_btn")
         Home.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Home)
@@ -78,13 +79,13 @@ class Ui_Home(object):
         Home.setStatusBar(self.statusbar)
 
         self.retranslateUi(Home)
-        self.browse_btn.clicked.connect(Home.browseSlot)
-        self.path_indicator.returnPressed.connect(Home.returnedPressedSlot)
+        self.browse_btn.clicked.connect(self.browseSlot)
+        self.path_indicator.returnPressed.connect(self.returnedPressedSlot)
         QtCore.QMetaObject.connectSlotsByName(Home)
 
     def retranslateUi(self, Home):
         _translate = QtCore.QCoreApplication.translate
-        Home.setWindowTitle(_translate("Home", "MainWindow"))
+        Home.setWindowTitle(_translate("Home", "Linknoide"))
         self.select_description.setText(_translate("Home", "Select File"))
         self.browse_btn.setText(_translate("Home", "Browse"))
         self.App_title.setText(_translate("Home", "Linknoide"))
@@ -92,7 +93,7 @@ class Ui_Home(object):
         self.generate_btn.setText(_translate("Home", "Generate"))
 
     @pyqtSlot()
-    def browseSlot(self, Home):
+    def browseSlot(self):
         pass
 
     @pyqtSlot()

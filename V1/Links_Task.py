@@ -1,11 +1,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QObject, pyqtSlot
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.setEnabled(True)
-        MainWindow.resize(780, 574)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class Ui_Task(QObject):
+    def setupUi(self, Task):
+        Task.setObjectName("Task")
+        Task.setEnabled(True)
+        Task.resize(780, 574)
+        self.centralwidget = QtWidgets.QWidget(Task)
         self.centralwidget.setObjectName("centralwidget")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setGeometry(QtCore.QRect(145, 30, 601, 491))
@@ -37,35 +38,47 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.likely_path_btn.setFont(font)
         self.likely_path_btn.setObjectName("likely_path_btn")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        Task.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(Task)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 780, 21))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        Task.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(Task)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        Task.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        self.subplot_btn.clicked.connect(MainWindow.subplotSlot)
-        self.quickest_path_btn.clicked.connect(MainWindow.quickPathSlot)
-        self.likely_path_btn.clicked.connect(MainWindow.likelyPathSlot)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(Task)
+        self.subplot_btn.clicked.connect(self.subplotSlot)
+        self.quickest_path_btn.clicked.connect(self.quickPathSlot)
+        self.likely_path_btn.clicked.connect(self.likelyPathSlot)
+        QtCore.QMetaObject.connectSlotsByName(Task)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.subplot_btn.setText(_translate("MainWindow", "Subplots"))
-        self.quickest_path_btn.setText(_translate("MainWindow", "Quickest Path"))
-        self.likely_path_btn.setText(_translate("MainWindow", "Likely Path"))
+        MainWindow.setWindowTitle(_translate("Task", "Linknoide Tasks"))
+        self.subplot_btn.setText(_translate("Task", "Subplots"))
+        self.quickest_path_btn.setText(_translate("Task", "Quickest Path"))
+        self.likely_path_btn.setText(_translate("Task", "Likely Path"))
+
+    @pyqtSlot()
+    def subplotSlot(self):
+        pass
+
+    @pyqtSlot()
+    def quickPathSlot(self):
+        pass
+
+    @pyqtSlot()
+    def likelyPathSlot(self):
+        pass
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    Task = QtWidgets.QMainWindow()
+    ui = Ui_Task()
+    ui.setupUi(Task)
+    Task.show()
     sys.exit(app.exec_())
 
