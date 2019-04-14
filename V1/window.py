@@ -1,11 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
-class Ui_MainWindow(QObject):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1391, 619)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class Ui_Window(QObject):
+    def setupUi(self, window):
+        window.setObjectName("window")
+        window.resize(1391, 619)
+        self.centralwidget = QtWidgets.QWidget(window)
         self.centralwidget.setObjectName("centralwidget")
         self.file_upload_area = QtWidgets.QFrame(self.centralwidget)
         self.file_upload_area.setGeometry(QtCore.QRect(20, 90, 1331, 43))
@@ -41,9 +43,15 @@ class Ui_MainWindow(QObject):
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(282, 150, 1071, 401))
-        self.lineEdit.setObjectName("lineEdit")
+        self.canvas_area = QtWidgets.QFrame(self.centralwidget)
+        self.canvas_area.setGeometry(QtCore.QRect(282, 150, 1071, 401))
+        self.canvas_area.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.canvas_area.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.canvas_area.setObjectName("canvas_area")
+        self.canvas_grid = QtWidgets.QGridLayout(self.canvas_area)
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.canvas_grid.addWidget(self.canvas, 0, 1, 10, 10)
         self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.layoutWidget.setGeometry(QtCore.QRect(19, 149, 201, 381))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -105,45 +113,30 @@ class Ui_MainWindow(QObject):
         self.Likely_path_btn.setFont(font)
         self.Likely_path_btn.setObjectName("Likely_path_btn")
         self.horizontalLayout_2.addWidget(self.Likely_path_btn)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionNew_Project = QtWidgets.QAction(MainWindow)
-        self.actionNew_Project.setObjectName("actionNew_Project")
-        self.actionRecent_Project = QtWidgets.QAction(MainWindow)
-        self.actionRecent_Project.setObjectName("actionRecent_Project")
-        self.actionSave = QtWidgets.QAction(MainWindow)
-        self.actionSave.setObjectName("actionSave")
-        self.actionPrint = QtWidgets.QAction(MainWindow)
-        self.actionPrint.setObjectName("actionPrint")
-        self.actionQuit = QtWidgets.QAction(MainWindow)
-        self.actionQuit.setObjectName("actionQuit")
+        window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        self.retranslateUi(window)
         self.browse_btn.clicked.connect(self.browseSlot)
         self.Likely_path_btn.clicked.connect(self.likelyPathSlot)
         self.quick_path_btn.clicked.connect(self.quickPathSlot)
         self.sub_plot_btn.clicked.connect(self.subPlotSlot)
         self.generate_btn.clicked.connect(self.generateSlot)
         self.path_indicator.returnPressed.connect(self.pathSlot)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(window)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, Window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Linknoide"))
-        self.upload_instruction.setText(_translate("MainWindow", "Select File"))
-        self.browse_btn.setText(_translate("MainWindow", "Browse"))
-        self.app_title.setText(_translate("MainWindow", "Linknoide"))
-        self.generate_btn.setText(_translate("MainWindow", "Generate"))
-        self.sub_plot_btn.setText(_translate("MainWindow", "Sub Plot"))
-        self.quick_path_btn.setText(_translate("MainWindow", "Quick Path"))
-        self.Likely_path_btn.setText(_translate("MainWindow", "Likely Path"))
-        self.actionNew_Project.setText(_translate("MainWindow", "New Project"))
-        self.actionRecent_Project.setText(_translate("MainWindow", "Recent Project"))
-        self.actionSave.setText(_translate("MainWindow", "Save"))
-        self.actionPrint.setText(_translate("MainWindow", "Print"))
-        self.actionQuit.setText(_translate("MainWindow", "Quit"))
+        Window.setWindowTitle(_translate("Window", "Linknoide"))
+        self.upload_instruction.setText(_translate("Window", "Select File"))
+        self.browse_btn.setText(_translate("Window", "Browse"))
+        self.app_title.setText(_translate("Window", "Linknoide"))
+        self.generate_btn.setText(_translate("Window", "Generate"))
+        self.sub_plot_btn.setText(_translate("Window", "Sub Plot"))
+        self.quick_path_btn.setText(_translate("Window", "Quick Path"))
+        self.Likely_path_btn.setText(_translate("Window", "Likely Path"))
 
     @pyqtSlot()
     def browseSlot(self):
@@ -170,12 +163,13 @@ class Ui_MainWindow(QObject):
         pass
 
 
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = Ui_Window()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-

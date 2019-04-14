@@ -1,0 +1,9 @@
+Task_ID,Predecessor,Task_Description
+1,,sweeping
+2,1,cut grass
+3,2,hallow
+4,3,plough
+5,"3,4",drunk
+6,4,watering
+7,"3,6",garden
+8,"5,6",hospital
