@@ -5,6 +5,7 @@ from model import Model
 import sys
 import pandas as pd
 import networkx as nx
+import matplotlib.pyplot as plt
 
 class HomeUIClass(Ui_Window):
     def __init__(self):
@@ -29,19 +30,33 @@ class HomeUIClass(Ui_Window):
         '''
         self.path_indicator.setText(self.model.getFileName())
         self.preview_window.setText(self.model.getFileContents())
+        self.generate_btn.setEnabled(True)
 
     def makeNetwork(self):
-        # Load Data
-        df = pd.read_csv(self.model.fileContent)
+        #Load the data
+        fileName = self.model.getFileName()
+        df = pd.read_csv(fileName)
+
+        #Automate using predictions for full scale version
+        g = nx.DiGraph()
+
+        #Add edges into the network
+        for i, elrow in df.iterrows():
+           g.add_edge(elrow[1], elrow[0])
+        return g
+
+    def subgraph(self, term):
+        df = pd.read_csv("matt_test_network.csv")
         # automate using predictions for full scale version
         color = pd.DataFrame(
             data=['silver'] * len(df.index))
         df['color'] = color
+        df_sub = df.loc[df['Origin'] == term]
         g = nx.DiGraph()
  
         # Add edges into network
-        for i, elrow in df.iterrows():
-            g.add_edge(elrow[0], elrow[1], attr_dict=elrow[2:].to_dict(), weight=1/elrow['num_connections'])
+        for i, elrow in df_sub.iterrows():
+            g.add_edge(elrow[0], elrow[1], attr_dict=elrow[2:].to_dict(), weight=1/elrow['description'])
  
         # Manually add X and Y coords of nodes
         nodeList = {'NodeName': ['home', 'ht', 'work', 'daycare', 'coffee'], 'X': [70, 405, 835, 300, 750],
@@ -50,7 +65,6 @@ class HomeUIClass(Ui_Window):
         # add node properties
         for i, nlrow in nodeFrame.iterrows():
             g.node[nlrow[0]] = nlrow[1:].to_dict()
- 
         return g
 
     # slot
@@ -93,11 +107,20 @@ class HomeUIClass(Ui_Window):
     def generateSlot(self):
         ''' Called when the user presses the Generate button
         '''
-        fileName = self.model.getFileName()
-        df = pd.read_csv(fileName)
-        color = pd.DataFrame(data=['silver'] * len(df.index))
-        df['color'] = color
-        g = nx.DiGraph()
+        self.figure.clf()
+
+        g = self.makeNetwork()
+
+        #labels = nx.get_edge_attributes(g, elrow[2])
+        nPos = nx.spring_layout(g)
+        #nx.draw(g, pos)
+        nx.draw_networkx(g, pos=nPos, node_size=500, alpha=0.5, node_color='r', edge_color='silver', arrows=True, with_labels=True)
+        nx.draw_networkx_edge_labels(g, pos=nPos, font_color="black", alpha=.2)
+        plt.title('Project Activity Sequence', size=13)
+        plt.axis("off")
+        self.canvas.draw()
+        self.generate_btn.setEnabled(False)
+        
 
 
 def main():

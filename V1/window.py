@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 class Ui_Window(QObject):
     def setupUi(self, window):
@@ -28,6 +29,7 @@ class Ui_Window(QObject):
         self.gridLayout.addWidget(self.path_indicator, 0, 1, 1, 1)
         self.browse_btn = QtWidgets.QPushButton(self.file_upload_area)
         self.browse_btn.setObjectName("browse_btn")
+        self.browse_btn.setStyleSheet("background-color: skyblue")
         self.gridLayout.addWidget(self.browse_btn, 0, 2, 1, 1)
         self.app_title = QtWidgets.QLabel(self.centralwidget)
         self.app_title.setGeometry(QtCore.QRect(20, 30, 121, 41))
@@ -79,6 +81,8 @@ class Ui_Window(QObject):
         font.setWeight(75)
         self.generate_btn.setFont(font)
         self.generate_btn.setObjectName("generate_btn")
+        self.generate_btn.setEnabled(False)
+        self.generate_btn.setStyleSheet("background-color: lightgreen")
         self.verticalLayout.addWidget(self.generate_btn)
         self.layoutWidget1 = QtWidgets.QWidget(self.centralwidget)
         self.layoutWidget1.setGeometry(QtCore.QRect(300, 570, 1021, 25))
@@ -94,6 +98,7 @@ class Ui_Window(QObject):
         font.setWeight(75)
         self.sub_plot_btn.setFont(font)
         self.sub_plot_btn.setObjectName("sub_plot_btn")
+        self.sub_plot_btn.setEnabled(False)
         self.horizontalLayout_2.addWidget(self.sub_plot_btn)
         self.quick_path_btn = QtWidgets.QPushButton(self.layoutWidget1)
         font = QtGui.QFont()
@@ -103,6 +108,7 @@ class Ui_Window(QObject):
         font.setWeight(75)
         self.quick_path_btn.setFont(font)
         self.quick_path_btn.setObjectName("quick_path_btn")
+        self.quick_path_btn.setEnabled(False)
         self.horizontalLayout_2.addWidget(self.quick_path_btn)
         self.Likely_path_btn = QtWidgets.QPushButton(self.layoutWidget1)
         font = QtGui.QFont()
@@ -112,6 +118,7 @@ class Ui_Window(QObject):
         font.setWeight(75)
         self.Likely_path_btn.setFont(font)
         self.Likely_path_btn.setObjectName("Likely_path_btn")
+        self.Likely_path_btn.setEnabled(False)
         self.horizontalLayout_2.addWidget(self.Likely_path_btn)
         window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(window)
@@ -161,8 +168,6 @@ class Ui_Window(QObject):
     @pyqtSlot()
     def likelyPathSlot(self):
         pass
-
-
 
 
 if __name__ == "__main__":
