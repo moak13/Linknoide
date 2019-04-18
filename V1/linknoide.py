@@ -1,13 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
-from window import Ui_Window
+from final import Ui_MainWindow
 from model import Model
 import sys
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 
-class HomeUIClass(Ui_Window):
+class HomeUIClass(Ui_MainWindow):
     def __init__(self):
         '''Initialize the super class
         '''
@@ -42,30 +42,26 @@ class HomeUIClass(Ui_Window):
 
         #Add edges into the network
         for i, elrow in df.iterrows():
-           g.add_edge(elrow[1], elrow[0])
+           g.add_edge(elrow[1], elrow[0], attr_dict=elrow[2])
+
+        for i, elrow in df.iterrows():
+            g.add_node(elrow[0])
         return g
 
-    def subgraph(self, term):
-        df = pd.read_csv("matt_test_network.csv")
-        # automate using predictions for full scale version
-        color = pd.DataFrame(
-            data=['silver'] * len(df.index))
-        df['color'] = color
-        df_sub = df.loc[df['Origin'] == term]
-        g = nx.DiGraph()
+    # def subgraph(self, term):
+    #     fileName = self.model.getFileName()
+    #     df = pd.read_csv(fileName)
+    #     # automate using predictions for full scale version
+    #     color = pd.DataFrame(
+    #         data=['silver'] * len(df.index))
+    #     df['color'] = color
+    #     df_sub = df.loc[df['Task_ID'] == term]
+    #     g = nx.DiGraph()
  
-        # Add edges into network
-        for i, elrow in df_sub.iterrows():
-            g.add_edge(elrow[0], elrow[1], attr_dict=elrow[2:].to_dict(), weight=1/elrow['description'])
- 
-        # Manually add X and Y coords of nodes
-        nodeList = {'NodeName': ['home', 'ht', 'work', 'daycare', 'coffee'], 'X': [70, 405, 835, 300, 750],
-                'Y': [250, 300, 240, 450, 510]}
-        nodeFrame = pd.DataFrame(data=nodeList)
-        # add node properties
-        for i, nlrow in nodeFrame.iterrows():
-            g.node[nlrow[0]] = nlrow[1:].to_dict()
-        return g
+    #     # Add edges into network
+    #     for i, elrow in df_sub.iterrows():
+    #         g.add_edge(elrow[0], elrow[1], attr_dict=elrow[2])
+    #     return g
 
     # slot
     def pathSlot(self):
@@ -114,13 +110,29 @@ class HomeUIClass(Ui_Window):
         #labels = nx.get_edge_attributes(g, elrow[2])
         nPos = nx.spring_layout(g)
         #nx.draw(g, pos)
-        nx.draw_networkx(g, pos=nPos, node_size=500, alpha=0.5, node_color='r', edge_color='silver', arrows=True, with_labels=True)
-        nx.draw_networkx_edge_labels(g, pos=nPos, font_color="black", alpha=.2)
+        nx.draw_networkx(g, pos=nPos, node_size=500, alpha=.45, node_color='r', edge_color='silver', arrows=True, with_labels=True)
+        labels = nx.get_edge_attributes(g, "attr_dict")
+        nx.draw_networkx_edge_labels(g, pos=nPos, edge_labels=labels, font_color="k", alpha=.2)
         plt.title('Project Activity Sequence', size=13)
-        plt.axis("off")
+        plt.axis("on")
         self.canvas.draw()
         self.generate_btn.setEnabled(False)
-        
+        # self.sub_plot_btn.setEnabled(True)
+
+    # def subPlotSlot(self, name):
+    #     self.figure.clf()
+    #     g = self.subgraph(name)
+    #     nPos = nx.spring_layout(g)
+    #     nx.draw_networkx(g, pos=nPos, node_size=500, alpha=.45, node_color='r', arrows=True, with_labels=True)
+    #     labels = nx.get_edge_attributes(g, "attr_dict")
+    #     nx.draw_networkx_edge_labels(g, pos=nPos, edge_labels=labels, font_color='black', alpha=.2)
+    #     plt.title('Project Activity Sequence \n filtered by \'' + name + '\'', size=13)
+    #     plt.axis("off")
+    #     self.canvas.draw()
+
+    # def onclick(self, event):
+    #     clickX = event.x
+    #     clickY = event.y
 
 
 def main():
