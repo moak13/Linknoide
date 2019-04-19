@@ -1,5 +1,6 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
 import csv
-import xlrd
+
 class Model:
     def __init__(self):
         '''
@@ -7,6 +8,7 @@ class Model:
         the file name and its contents.
         '''
         self.fileName = None
+        self.saveName = ""
         self.fileContent = ""
 
     def isValid(self, fileName):
@@ -20,7 +22,20 @@ class Model:
                 file.close()
                 return True
             else:
-                print("Wrong file extension")
+                 return "Wrong file extension"
+        except:
+            return False
+
+    def isNameValid(self, saveName):
+        '''
+        Checks if the inputted name is greater
+        than Zero. Returns False otherwise.
+        '''
+        try:
+            if saveName[-3] == ".png" or ".pdf":
+                return saveName
+            else:
+                return "File name can't be empty"
         except:
             return False
 
@@ -37,6 +52,16 @@ class Model:
             self.fileContents = ""
             self.fileName = ""
             print("Can't open file")
+
+    def setSaveFileName(self, saveName):
+        '''
+        sets the file to be saved as the name inputted
+        '''
+        if self.isNameValid(saveName):
+            self.saveName = saveName
+        else:
+            self.saveName = ""
+            print("Empty file name")
             
     def getFileName(self):
         '''
@@ -50,3 +75,9 @@ class Model:
         returns an empty string.
         '''
         return self.fileContents
+
+    def getSaveFileName(self):
+        '''
+        Returns the inputted text for the file
+        '''
+        return self.saveName

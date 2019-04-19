@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbarfrom
 
+
 class Ui_MainWindow(QObject):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -93,8 +94,12 @@ class Ui_MainWindow(QObject):
         MainWindow.setStatusBar(self.statusbar)
         self.Save_option = QtWidgets.QAction(MainWindow)
         self.Save_option.setObjectName("Save_option")
+        self.Save_option.setShortcut('Ctrl+S')
+        self.Save_option.triggered.connect(self.saveFile)
         self.Print_option = QtWidgets.QAction(MainWindow)
         self.Print_option.setObjectName("Print_option")
+        self.Print_option.setShortcut('Ctrl+P')
+        self.Print_option.triggered.connect(self.printFile)
         self.app_Options.addAction(self.Save_option)
         self.app_Options.addAction(self.Print_option)
         self.menubar.addAction(self.app_Options.menuAction())
@@ -110,10 +115,11 @@ class Ui_MainWindow(QObject):
         MainWindow.setWindowTitle(_translate("MainWindow", "Linknoide"))
         MainWindow.setWindowIcon(QtGui.QIcon('asset/logo/app_icon.png'))
         self.app_title.setText(_translate("MainWindow", "Linknoide"))
-        self.upload_instruction.setText(_translate("MainWindow", "Select File"))
+        self.upload_instruction.setText(
+            _translate("MainWindow", "Select File"))
         self.browse_btn.setText(_translate("MainWindow", "Browse"))
         self.generate_btn.setText(_translate("MainWindow", "Generate"))
-        self.app_Options.setTitle(_translate("MainWindow", "Options"))
+        self.app_Options.setTitle(_translate("MainWindow", "File"))
         self.Save_option.setText(_translate("MainWindow", "Save"))
         self.Print_option.setText(_translate("MainWindow", "Print"))
 
@@ -129,6 +135,12 @@ class Ui_MainWindow(QObject):
     def generateSlot(self):
         pass
 
+    def saveFile(self):
+        pass
+
+    def printFile(self):
+        pass
+
 
 if __name__ == "__main__":
     import sys
@@ -138,4 +150,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-

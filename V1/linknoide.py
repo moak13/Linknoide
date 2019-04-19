@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 from PyQt5.QtCore import QObject, pyqtSlot
 from final import Ui_MainWindow
 from model import Model
@@ -7,13 +7,14 @@ import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
 class HomeUIClass(Ui_MainWindow):
     def __init__(self):
         '''Initialize the super class
         '''
         super().__init__()
         self.model = Model()
-        
+
     def setupUi(self, MW):
         ''' Setup the UI of the super class, and add here code
         that relates to the way we want our UI to operate.
@@ -32,17 +33,24 @@ class HomeUIClass(Ui_MainWindow):
         self.preview_window.setText(self.model.getFileContents())
         self.generate_btn.setEnabled(True)
 
+    def insert(self):
+        ''' This is meant to grab the generated graph
+        and save it automatically'''
+        title = self.model.getSaveFileName()
+        fig = plt.figure()
+        fig.savefig(title)
+
     def makeNetwork(self):
-        #Load the data
+        # Load the data
         fileName = self.model.getFileName()
         df = pd.read_csv(fileName)
 
-        #Automate using predictions for full scale version
+        # Automate using predictions for full scale version
         g = nx.DiGraph()
 
-        #Add edges into the network
+        # Add edges into the network
         for i, elrow in df.iterrows():
-           g.add_edge(elrow[1], elrow[0], attr_dict=elrow[2])
+            g.add_edge(elrow[1], elrow[0], attr_dict=elrow[2])
 
         for i, elrow in df.iterrows():
             g.add_node(elrow[0])
@@ -57,7 +65,7 @@ class HomeUIClass(Ui_MainWindow):
     #     df['color'] = color
     #     df_sub = df.loc[df['Task_ID'] == term]
     #     g = nx.DiGraph()
- 
+
     #     # Add edges into network
     #     for i, elrow in df_sub.iterrows():
     #         g.add_edge(elrow[0], elrow[1], attr_dict=elrow[2])
@@ -68,7 +76,7 @@ class HomeUIClass(Ui_MainWindow):
         ''' Called when the user enters a string in the line edit and
         presses the ENTER key.
         '''
-        fileName =  self.path_indicator.text()
+        fileName = self.path_indicator.text()
         if self.model.isValid(fileName):
             self.model.setFileName(self.path_indicator.text())
             self.refreshAll()
@@ -90,14 +98,32 @@ class HomeUIClass(Ui_MainWindow):
         '''
         options = QtWidgets.QFileDialog.Options()
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
-                        None,
-                        "Select File",
-                        "",
-                        "All Files (*);;CSV Files (*.csv)",
-                        options=options)
+            None,
+            "Select File",
+            "",
+            "All Files (*);;CSV Files (*.csv)",
+            options=options)
         if fileName:
             self.model.setFileName(fileName)
             self.refreshAll()
+
+    def saveFile(self):
+        ''' Called when the user presses the save option
+        '''
+        options = QtWidgets.QFileDialog.Options()
+        saveName, _ = QtWidgets.QFileDialog.getSaveFileName(
+            None, "Save As", "", "All Files (*);;PNG Files (*.png);;PDF Files (*.pdf)", options=options)
+        if saveName:
+            print(saveName)
+            self.model.setSaveFileName(saveName)
+            self.insert()
+
+    def printFile(self):
+        printer = QtPrintSupport.QPrinter()
+        painter = QtGui.QPainter()
+        painter.begin(printer)
+        screen = self.canvas_window.grab()
+
 
     # slot
     def generateSlot(self):
@@ -107,17 +133,16 @@ class HomeUIClass(Ui_MainWindow):
 
         g = self.makeNetwork()
 
-        #labels = nx.get_edge_attributes(g, elrow[2])
         nPos = nx.spring_layout(g)
-        #nx.draw(g, pos)
-        nx.draw_networkx(g, pos=nPos, node_size=500, alpha=.45, node_color='r', edge_color='silver', arrows=True, with_labels=True)
+        nx.draw_networkx(g, pos=nPos, node_size=500, alpha=.85, node_color='r',
+                         edge_color='silver', arrows=True, with_labels=True)
         labels = nx.get_edge_attributes(g, "attr_dict")
-        nx.draw_networkx_edge_labels(g, pos=nPos, edge_labels=labels, font_color="k", alpha=.2)
+        nx.draw_networkx_edge_labels(
+            g, pos=nPos, edge_labels=labels, font_color="k", alpha=.9)
         plt.title('Project Activity Sequence', size=13)
         plt.axis("on")
         self.canvas.draw()
         self.generate_btn.setEnabled(False)
-        # self.sub_plot_btn.setEnabled(True)
 
     # def subPlotSlot(self, name):
     #     self.figure.clf()
@@ -149,5 +174,6 @@ def main():
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
 
 main()
