@@ -86,8 +86,10 @@ class Ui_MainWindow(QObject):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1365, 21))
         self.menubar.setObjectName("menubar")
-        self.app_Options = QtWidgets.QMenu(self.menubar)
-        self.app_Options.setObjectName("app_Options")
+        self.app_File = QtWidgets.QMenu(self.menubar)
+        self.app_File.setObjectName("app_File")
+        self.app_Edit = QtWidgets.QMenu(self.menubar)
+        self.app_Edit.setObjectName("app_Edit")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -96,13 +98,13 @@ class Ui_MainWindow(QObject):
         self.Save_option.setObjectName("Save_option")
         self.Save_option.setShortcut('Ctrl+S')
         self.Save_option.triggered.connect(self.saveFile)
-        self.Print_option = QtWidgets.QAction(MainWindow)
-        self.Print_option.setObjectName("Print_option")
-        self.Print_option.setShortcut('Ctrl+P')
-        self.Print_option.triggered.connect(self.printFile)
-        self.app_Options.addAction(self.Save_option)
-        self.app_Options.addAction(self.Print_option)
-        self.menubar.addAction(self.app_Options.menuAction())
+        self.Shuffle_Option = QtWidgets.QAction(MainWindow)
+        self.Shuffle_Option.setObjectName("Shuffle_option")
+        self.Shuffle_Option.triggered.connect(self.shuffle)
+        self.app_File.addAction(self.Save_option)
+        self.app_Edit.addAction(self.Shuffle_Option)
+        self.menubar.addAction(self.app_File.menuAction())
+        self.menubar.addAction(self.app_Edit.menuAction())
 
         self.retranslateUi(MainWindow)
         self.browse_btn.clicked.connect(self.browseSlot)
@@ -119,9 +121,10 @@ class Ui_MainWindow(QObject):
             _translate("MainWindow", "Select File"))
         self.browse_btn.setText(_translate("MainWindow", "Browse"))
         self.generate_btn.setText(_translate("MainWindow", "Generate"))
-        self.app_Options.setTitle(_translate("MainWindow", "File"))
+        self.app_File.setTitle(_translate("MainWindow", "File"))
+        self.app_Edit.setTitle(_translate("MainWindow", "Edit"))
         self.Save_option.setText(_translate("MainWindow", "Save"))
-        self.Print_option.setText(_translate("MainWindow", "Print"))
+        self.Shuffle_Option.setText(_translate("MainWindow", "Shuffle"))
 
     @pyqtSlot()
     def browseSlot(self):
@@ -138,7 +141,7 @@ class Ui_MainWindow(QObject):
     def saveFile(self):
         pass
 
-    def printFile(self):
+    def shuffle(self):
         pass
 
 

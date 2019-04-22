@@ -1,4 +1,3 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
 import csv
 
 class Model:
@@ -10,6 +9,12 @@ class Model:
         self.fileName = None
         self.saveName = ""
         self.fileContent = ""
+        self.msg = ""
+
+    def passMsg(self, msg):
+        ''' Returns a specific message at error intervals
+        '''
+        return self.msg
 
     def isValid(self, fileName):
         '''
@@ -22,7 +27,7 @@ class Model:
                 file.close()
                 return True
             else:
-                 return "Wrong file extension"
+                self.passMsg("Wrong File Extension")
         except:
             return False
 
@@ -35,7 +40,7 @@ class Model:
             if saveName[-3] == ".png" or ".pdf":
                 return saveName
             else:
-                return "File name can't be empty"
+                self.passMsg("File Name Can't Be Empty!")
         except:
             return False
 
@@ -51,7 +56,7 @@ class Model:
         else:
             self.fileContents = ""
             self.fileName = ""
-            print("Can't open file")
+            self.passMsg("Can't Open File")
 
     def setSaveFileName(self, saveName):
         '''
@@ -61,7 +66,7 @@ class Model:
             self.saveName = saveName
         else:
             self.saveName = ""
-            print("Empty file name")
+            self.passMsg("Empty File Name!")
             
     def getFileName(self):
         '''

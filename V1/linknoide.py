@@ -34,13 +34,14 @@ class HomeUIClass(Ui_MainWindow):
         self.generate_btn.setEnabled(True)
 
     def insert(self):
-        ''' This is meant to grab the generated graph
+        ''' This grabs the generated graph
         and save it automatically'''
         title = self.model.getSaveFileName()
-        fig = plt.figure()
-        fig.savefig(title)
+        self.figure.savefig(title)
 
     def makeNetwork(self):
+        ''' This will generate the graph network
+        '''
         # Load the data
         fileName = self.model.getFileName()
         df = pd.read_csv(fileName)
@@ -118,12 +119,11 @@ class HomeUIClass(Ui_MainWindow):
             self.model.setSaveFileName(saveName)
             self.insert()
 
-    def printFile(self):
-        printer = QtPrintSupport.QPrinter()
-        painter = QtGui.QPainter()
-        painter.begin(printer)
-        screen = self.canvas_window.grab()
-
+    def shuffle(self):
+        ''' When clicked, makes the generateSlot function
+        to reshuffle the generated graph.
+        '''
+        self.generateSlot()
 
     # slot
     def generateSlot(self):
