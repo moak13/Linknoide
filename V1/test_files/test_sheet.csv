@@ -1,9 +1,16 @@
 Task_ID,Predecessor,Task_Description,Duration
-1,,sweeping,8
-2,1,cut grass,7
-3,2,hallow,9
-4,3,plough,2
-5,"3,4",drunk,4
-6,4,watering,5
-7,"3,6",garden,1
-8,"5,6",hospital,6
+1,1,None,6
+2,1,brown,9
+3,2,cut grass,10
+4,3,hair,1
+5,3,plough,4
+5,4,drunk,5
+6,4,watering,8
+7,3,garden,2
+7,6,hospital,1
+8,5,school,12
+8,6,spa,7
+9,7,harvard,6
+9,8,james,3
+10,9,mercy,0
+11,10,usman,20
