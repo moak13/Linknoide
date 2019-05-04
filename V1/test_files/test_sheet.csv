@@ -1,9 +1,9 @@
-Task_ID,Predecessor,Task_Description
-1,,sweeping
-2,1,cut grass
-3,2,hallow
-4,3,plough
-5,"3,4",drunk
-6,4,watering
-7,"3,6",garden
-8,"5,6",hospital
+Task_ID,Predecessor,Task_Description,Duration
+1,,sweeping,8
+2,1,cut grass,7
+3,2,hallow,9
+4,3,plough,2
+5,"3,4",drunk,4
+6,4,watering,5
+7,"3,6",garden,1
+8,"5,6",hospital,6
