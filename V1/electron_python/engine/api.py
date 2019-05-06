@@ -11,7 +11,7 @@ sys.path.insert(0, parent_dir)
 from flask_restful import Resource, Api
 from flask import  Flask, request
 import pandas as pd
-from model import Model
+from utils.model import Model
 
 app = Flask(__name__)
 api = Api(app)
