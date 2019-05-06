@@ -8,10 +8,10 @@ parent_dir = current_dir[:current_dir.rfind(os.path.sep)]
 
 sys.path.insert(0, parent_dir)
 
-from .api import *
+from api import *
 
 api.add_resource(UploadFile, '/Upload')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host= "127.0.0.1", port=5000, debug=False)

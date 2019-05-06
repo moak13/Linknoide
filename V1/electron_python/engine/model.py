@@ -5,7 +5,7 @@ class Model:
         the file name and its contents.
         the message to return back to the user on errors
         '''
-        self.fileName = None
+        self.fileName = ""
         self.fileContent = ""
         self.msg = ""
 
@@ -30,19 +30,6 @@ class Model:
         except:
             return False
 
-    def isNameValid(self, saveName):
-        '''
-        Checks if the inputted name is greater
-        than Zero. Returns False otherwise.
-        '''
-        try:
-            if saveName[-3] == ".png" or ".pdf":
-                return saveName
-            else:
-                self.passMsg("File Name Can't Be Empty!")
-        except:
-            return False
-
     def setFileName(self, fileName):
         '''
         sets the member fileName to the value of the argument
@@ -52,6 +39,7 @@ class Model:
         if self.isValid(fileName):
             self.fileName = fileName
             self.fileContents = open(fileName, 'r').read()
+            print(self.fileName)
         else:
             self.fileContents = ""
             self.fileName = ""
