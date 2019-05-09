@@ -5,7 +5,7 @@ class Model:
         the file name and its contents.
         the message to return back to the user on errors
         '''
-        self.fileName = ""
+        self.fileName = None
         self.fileContent = ""
         self.msg = ""
 
@@ -22,9 +22,9 @@ class Model:
         '''
         try:
             if fileName[-3] == ".csv" or ".xls":
-                file = open(fileName, 'r')
-                file.close()
-                return True
+                file = open(fileName, 'r').read()
+                print(file)
+                return file
             else:
                 self.passMsg("Wrong File Extension")
         except:
@@ -40,9 +40,10 @@ class Model:
             self.fileName = fileName
             self.fileContents = open(fileName, 'r').read()
             print(self.fileName)
+            print(self.fileContents)
         else:
-            self.fileContents = ""
-            self.fileName = ""
+            self.fileContents = "File Contents Can't be read"
+            self.fileName = "No File Parsed!"
             self.passMsg("Can't Open File")
             
     def getFileName(self):
