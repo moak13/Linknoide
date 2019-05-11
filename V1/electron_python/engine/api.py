@@ -12,15 +12,19 @@ from flask_restful import Resource, Api
 from flask import  Flask, request
 import pandas as pd
 from utils.model import Model
+from flask import jsonify
 
 app = Flask(__name__)
 api = Api(app)
 model = Model()
 
 class UploadFile(Resource):
-    def post(self):
-        req_data = request.files['file']
-        fileName = req_data.filename
-        model.setFileName(fileName)
-        print(fileName)
-        return model.getFileContents()
+	def post(self):
+		f = request.files['file']
+		data = pd.read_csv(f)
+		filedata = f.read()
+		fileName = f.filename
+		model.setFileName(fileName)
+		response = jsonify(data.to_json())
+		response.status_code = 200
+		return  response
