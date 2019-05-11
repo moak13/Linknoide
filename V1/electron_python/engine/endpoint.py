@@ -10,7 +10,8 @@ sys.path.insert(0, parent_dir)
 
 from api import *
 
-api.add_resource(UploadFile, '/Upload')
+api.add_resource(UploadFile, '/upload')
+api.add_resource(Generate, '/generate')
 
 
 if __name__ == '__main__':

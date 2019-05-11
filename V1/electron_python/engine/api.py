@@ -11,6 +11,8 @@ sys.path.insert(0, parent_dir)
 from flask_restful import Resource, Api
 from flask import  Flask, request
 import pandas as pd
+import networkx as nx
+from networkx.readwrite import json_graph
 from utils.model import Model
 
 app = Flask(__name__)
@@ -24,3 +26,18 @@ class UploadFile(Resource):
         model.setFileName(fileName)
         print(fileName)
         return model.getFileContents()
+
+class Generate(Resource):
+    def get(self):
+        g = makePlot()
+        data = json_graph.node_link_data(g)
+        return data
+
+def makePlot():
+    file = model.getFileName()
+    df = pd.DataFrame(file)
+    total = df['Duration'].sum() or df['duration'].sum()
+    G = nx.DiGraph()
+    for i, elrow in df.iterrows():
+        G.add_edge(elrow[1], elrow[0], attr_dict=elrow[2:])
+    return G, total
