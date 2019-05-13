@@ -1,3 +1,6 @@
+import csv
+from flask import jsonify
+
 class Model():
     def __init__(self):
         '''
@@ -5,25 +8,37 @@ class Model():
         the data from csv file.
         the message to return back to the user on errors
         '''
-        self.data = ""
+        self.df = ""
+        self.contents = ""
         self.msg = ""
 
-    def passMsg(self, msg):
+    def setMsg(self, msg):
         ''' 
-        Returns a specific message at error intervals
+        Gets the parsed message
         '''
-        return self.msg
+        self.msg = msg
 
-    def setData(self, data):
+    def setAttr(self, df, content):
         '''
-        sets the member fileName to the value of the argument
-        if the file exists.  Otherwise resets both the filename
-        and file contents members.
+        Get the file dataframe and as well as the file contents to be parsed back
         '''
-        self.data = data
+        self.df = df
+        self.contents = content
 
-    def getData(self):
+    def getDF(self):
         '''
         Returns the data.
         '''
-        return self.data
+        return self.df
+
+    def getContents(self):
+        '''
+        Returns Contents of a file
+        '''
+        return self.contents
+
+    def getMsg(self):
+        '''
+        Returns the message
+        '''
+        return self.msg
