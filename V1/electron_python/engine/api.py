@@ -54,7 +54,7 @@ class Convert(Resource):
         req = request.get_json(force=True)
         svg = req['svg_data']
         fformat = req['format']
-        result = Cairosvg.Svg2pdf(url=svg, write_to=fformat)
+        result = Cairosvg.svg2pdf(url=svg, write_to=fformat)
         return result
 
 
