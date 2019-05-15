@@ -12,7 +12,7 @@ from api import *
 
 api.add_resource(UploadFile, '/upload')
 api.add_resource(Generate, '/generate')
-api.add_resource(Convert, '/convert')
+# api.add_resource(Convert, '/convert')
 
 
 if __name__ == '__main__':

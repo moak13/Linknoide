@@ -4,7 +4,7 @@ from networkx.readwrite import json_graph
 import networkx as nx
 import pandas as pd
 import itertools
-import Cairosvg
+#import cairosvg as cs
 
 from flask import Flask, request
 from flask_restful import Resource, Api
@@ -49,13 +49,13 @@ class Generate(Resource):
             G.node[nlrow[0]].update(nlrow[1:].to_dict())
         return G
 
-class Convert(Resource):
-    def post(self):
-        req = request.get_json(force=True)
-        svg = req['svg_data']
-        fformat = req['format']
-        result = Cairosvg.svg2pdf(url=svg, write_to=fformat)
-        return result
+# class Convert(Resource):
+#     def post(self):
+#         req = request.get_json(force=True)
+#         svg = req['svg_data']
+#         fformat = req['format']
+#         result = cs.svg2pdf(file_obj=open(svg), write_to=fformat)
+#         return result
 
 
 # data = pd.read_csv(f)
